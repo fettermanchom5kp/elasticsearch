@@ -2587,6 +2587,9 @@ public class InternalEngine extends Engine {
         if (latestCommit.getGeneration() != segmentCommitInfos.getGeneration()) {
             return false;
         }
+        if (getProcessedLocalCheckpoint() > Long.parseLong(lastCommittedSegmentInfos.userData.get(SequenceNumbers.LOCAL_CHECKPOINT_KEY))) {
+            return false;
+        }
 
         final var segmentsToMerge = new HashMap<SegmentCommitInfo, Boolean>();
         for (int i = 0; i < segmentCommitInfos.size(); i++) {
